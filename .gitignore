@@ -169,3 +169,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+/.idea/.gitignore
+/.idea/fastapi-reqres-clone.iml
+/.idea/misc.xml
+/.idea/vcs.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml

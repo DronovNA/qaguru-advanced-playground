@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from app.models.user import User
+from app.models.User import User
 
 USERS_FILE = Path("users.json")
 

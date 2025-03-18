@@ -10,15 +10,14 @@ import pytest
 ])
 def test_pagination_response(app_url: str, page: int, size: int):
     """Проверяем, что в ответе присутствуют page и size с правильными значениями."""
-    page, size = 2, 5
     response = requests.get(f"{app_url}/api/users", params={"page": page, "size": size})
     assert response.status_code == 200
     data = response.json()
 
     assert "page" in data, "В ответе отсутствует поле 'page'"
-    assert "size" in data, "В ответе отсутствует поле 'size'"
-    assert data["page"] == page, f"Ожидалось page={page}, а в ответе {data['page']}"
-    assert data["size"] == size, f"Ожидалось size={size}, а в ответе {data['size']}"
+    assert "size3" in data
+    assert data["page"] == page
+    assert data["size"] == size
 
 
 def test_pagination_response_structure(app_url: str):
@@ -28,7 +27,7 @@ def test_pagination_response_structure(app_url: str):
     data = response.json()
 
     expected_keys = {"page", "size", "total", "pages", "items"}
-    assert expected_keys.issubset(data.keys()), f"Отсутствуют ключи: {expected_keys - data.keys()}"
+    assert expected_keys.issubset(data.keys())
 
 @pytest.mark.parametrize("page, size", [(1, 5), (2, 10), (3, 3)])
 def test_pagination_page_size_values(app_url: str, page: int, size: int):
@@ -37,8 +36,8 @@ def test_pagination_page_size_values(app_url: str, page: int, size: int):
     assert response.status_code == 200
     data = response.json()
 
-    assert data["page"] == page, f"Ожидалось page={page}, а в ответе {data['page']}"
-    assert data["size"] == size, f"Ожидалось size={size}, а в ответе {data['size']}"
+    assert data["page"] == page
+    assert data["size"] == size
 
 @pytest.mark.parametrize("page, size", [(1, 5), (2, 5), (3, 2)])
 def test_pagination_item_count(app_url: str, page: int, size: int):
@@ -54,8 +53,8 @@ def test_pagination_data_changes(app_url: str):
     response_page_1 = requests.get(f"{app_url}/api/users", params={"page": 1, "size": 5})
     response_page_2 = requests.get(f"{app_url}/api/users", params={"page": 2, "size": 5})
 
-    assert response_page_1.status_code == 200, f"Unexpected status: {response_page_1.status_code}"
-    assert response_page_2.status_code == 200, f"Unexpected status: {response_page_2.status_code}"
+    assert response_page_1.status_code == 200
+    assert response_page_2.status_code == 200
 
     data_page_1 = response_page_1.json()
     data_page_2 = response_page_2.json()

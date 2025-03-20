@@ -36,8 +36,11 @@ def update_user(user_id: int, user: User) -> Type[User]:
         return db_user
 
 
-def delete_user(user_id: int):
+def delete_user(user_id: int) -> bool | None:
     with Session(engine) as session:
         user = session.get(User, user_id)
+        if not user:
+            return None
         session.delete(user)
         session.commit()
+        return True

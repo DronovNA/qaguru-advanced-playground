@@ -8,9 +8,9 @@ jobs:
     name: Tests app
     runs-on: ubuntu-latest
     env:
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      BASE_URL: ${{ secrets.BASE_URL }}
+      POSTGRES_USER: ci
+      POSTGRES_PASSWORD: ci
+      BASE_URL: http://127.0.0.1:8000
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

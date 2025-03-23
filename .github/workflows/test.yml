@@ -20,6 +20,7 @@ jobs:
       - run: docker compose build
       - run: docker compose up -d
       - run: sleep 5
+      - run: echo "BASE_URL=${BASE_URL}"
       - run: pytest test --junit-xml=test-results.xml
         env:
           BASE_URL: ${{ secrets.BASE_URL }}

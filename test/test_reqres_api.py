@@ -30,17 +30,6 @@ def test_create_single_user(app_url: str, user_data: dict[str, str], clear_gener
     user_id = response.json()["id"]
     clear_generated_user.append(user_id)
 
-def test_delete_single_user(app_url: str, fill_test_data, users: list[User]):
-    """
-    Тест на удаление с предусловием: наличие созданного пользователя
-    """
-    user: dict = random.choice(users)
-    response = requests.delete(f"{app_url}/api/users/delete/{user['id']}")
-    assert response.status_code == HTTPStatus.NO_CONTENT
-
-    response = requests.get(f"{app_url}/api/users/{user['id']}")
-    assert response.status_code == HTTPStatus.NOT_FOUND
-
 @pytest.mark.parametrize("request_data", [
         {
             "email": "testpatch.mail.1@qaguru.autotest",
@@ -135,13 +124,26 @@ def test_users_method_not_found_delete(app_url: str, fill_test_data, users: list
     Тест на 404 ошибку при удалении
     """
     user_ids = [user["id"] for user in users]
-    non_existent_user_id = max(user_ids) + 100
+    non_existent_user_id = max(user_ids) + 10000
     response = requests.request(
         method=request_data["method"],
         url=f"{app_url}/api/users/delete/{non_existent_user_id}",
         json=request_data["json"]
     )
     assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_delete_single_user(app_url: str, fill_test_data, users: list[User]):
+    """
+    Тест на удаление с предусловием: наличие созданного пользователя
+    """
+    user: dict = random.choice(users)
+    response = requests.delete(f"{app_url}/api/users/delete/{user['id']}")
+    assert response.status_code == HTTPStatus.NO_CONTENT
+
+    response = requests.get(f"{app_url}/api/users/{user['id']}")
+    assert response.status_code == HTTPStatus.NOT_FOUND
+
 
 
 

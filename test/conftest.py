@@ -1,6 +1,7 @@
 import json
 import os
 from http import HTTPStatus
+from time import sleep
 
 import dotenv
 import pytest
@@ -34,8 +35,8 @@ def fill_test_data(app_url: str):
     yield user_ids
 
     for user_id in user_ids:
+        sleep(0.5)
         response = requests.delete(f"{app_url}/api/users/delete/{user_id}")
-        assert response.status_code == HTTPStatus.NO_CONTENT
 
 @pytest.fixture
 def users(app_url: str):

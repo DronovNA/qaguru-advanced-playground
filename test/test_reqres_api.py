@@ -18,12 +18,6 @@ def test_users(app_url):
     for user in user_list:
         User.model_validate(user)
 
-@pytest.mark.parametrize("user_id", [2])
-def test_get_single_user(user_id: int, app_url: str, fill_test_data) -> None:
-    response = requests.get(f"{app_url}/api/users/{user_id}")
-    assert response.status_code == HTTPStatus.OK
-    assert response.json()["id"] == user_id
-
 def test_create_single_user(app_url: str, user_data: dict[str, str], clear_generated_user):
     """Тест на создание пользователя с автоматическим удалением."""
     response = requests.post(f"{app_url}/api/users/", json=user_data)

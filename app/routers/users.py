@@ -27,11 +27,7 @@ async def get_user(user_id: int) -> User:
 
 
 @router.post("/", status_code=HTTPStatus.CREATED)
-async def create_user(user: UserCreate) -> UserCreate:
-    try:
-        UserCreate.model_validate(user.model_dump())
-    except Exception as e:
-        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail=str(e))
+async def create_user(user: User) -> User:
     return users.create_user(user)
 
 

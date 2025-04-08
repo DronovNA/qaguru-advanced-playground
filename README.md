@@ -43,7 +43,7 @@ fastapi-reqres-clone/
 ```
 Перейдите в каталог проекта:
 ```bash
-    cd fastapi-reqres-clone
+    cd qaguru-advanced-playground
 ```
 
 Создайте и активируйте виртуальную среду:

@@ -42,7 +42,10 @@ jobs:
     needs: tests  # Зависимость от тестов
     steps:
       - uses: actions/checkout@v4
-      - run: gh release create $(git rev-parse --short HEAD) --generate-notes
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create $(git rev-parse --short HEAD) --generate-notes
 
   deploy:
     runs-on: ubuntu-latest

@@ -1,9 +1,7 @@
-import json
+
 from http import HTTPStatus
 from typing import Iterable
 
-import pytest
-import requests
 from fastapi import APIRouter, HTTPException
 
 from app.models.User import User, UserCreate, UserUpdate
@@ -12,21 +10,6 @@ from app.database import users
 router = APIRouter(prefix="/api/users")
 
 
-@pytest.fixture(scope="module")
-def fill_test_data(app_url):
-    with open("users.json") as f:
-        test_data_users = json.load(f)
-    api_users = []
-    for user in test_data_users:
-        response = requests.post(f"{app_url}/api/users/", json=user)
-        api_users.append(response.json())
-
-    user_ids = [user["id"] for user in api_users]
-
-    yield user_ids
-
-    for user_id in user_ids:
-        requests.delete(f"{app_url}/api/users/{user_id}")
 
 
 @router.get("/", status_code=HTTPStatus.OK)
@@ -45,11 +28,6 @@ async def get_user(user_id: int) -> User:
 
 @router.post("/", status_code=HTTPStatus.CREATED)
 async def create_user(user: User) -> User:
-    try:
-        UserCreate.model_validate(user.model_dump())
-    except Exception as e:
-        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail=str(e))
-
     return users.create_user(user)
 
 

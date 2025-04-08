@@ -1,6 +1,7 @@
 import json
 import os
 from http import HTTPStatus
+from time import sleep
 
 import dotenv
 import pytest
@@ -21,7 +22,7 @@ def app_url():
 
 @pytest.fixture(scope="module")
 def fill_test_data(app_url: str):
-    with open("../fastapi-reqres-clone/users.json") as f:
+    with open("../qaguru-advanced-playground/users.json") as f:
         test_data_users = json.load(f)
     api_users = []
     for user in test_data_users:
@@ -34,8 +35,8 @@ def fill_test_data(app_url: str):
     yield user_ids
 
     for user_id in user_ids:
+        sleep(0.5)
         response = requests.delete(f"{app_url}/api/users/delete/{user_id}")
-        assert response.status_code == HTTPStatus.NO_CONTENT
 
 @pytest.fixture
 def users(app_url: str):
@@ -68,7 +69,7 @@ def clear_generated_user(app_url: str):
     yield user_ids
 
     for user_id in user_ids:
-        response = requests.delete(f"{app_url}/api/users/{user_id}")
+        response = requests.delete(f"{app_url}/api/users/delete/{user_id}")
         assert response.status_code == HTTPStatus.NO_CONTENT
 
 

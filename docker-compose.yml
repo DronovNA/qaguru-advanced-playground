@@ -24,10 +24,11 @@ services:
     #    tmpfs:
     #      size: 134217728 # 128*2^20 bytes = 128Mb
     environment:
-    # Use github secrets
+      POSTGRES_USER:
       POSTGRES_PASSWORD:
+      PGDATA: /var/lib/postgresql/data-qaguru
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - qaguru-db-data:/var/lib/postgresql/data-qaguru
     ports:
       - 5432:5432
 
@@ -38,4 +39,4 @@ services:
       - 8080:8080
 
 volumes:
-  db-data:
+  qaguru-db-data:

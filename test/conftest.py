@@ -68,7 +68,7 @@ def clear_generated_user(app_url: str):
     yield user_ids
 
     for user_id in user_ids:
-        response = requests.delete(f"{app_url}/api/users/{user_id}")
+        response = requests.delete(f"{app_url}/api/users/delete/{user_id}")
         assert response.status_code == HTTPStatus.NO_CONTENT
 
 

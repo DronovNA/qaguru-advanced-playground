@@ -3,7 +3,7 @@ from typing import Iterable, Type
 from fastapi import HTTPException
 from sqlmodel import Session, select
 from app.database.engine import engine
-from app.models.User import User
+from app.models.User import User, UserCreate
 
 
 def get_user(user_id: int) -> User | None:
@@ -15,7 +15,7 @@ def get_users() ->Iterable[User]:
         statement = select(User)
         return session.exec(statement).all()
 
-def create_user(user: User) -> User:
+def create_user(user: UserCreate) -> UserCreate:
     with Session(engine) as session:
         session.add(user)
         session.commit()

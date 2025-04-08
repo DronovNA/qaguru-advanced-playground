@@ -96,7 +96,7 @@ def test_get_user_after_patch(app_url: str, user_data: dict[str, str], fill_test
             "endpoint": "api/users/delete/"
         },
         {
-            "method": "git",
+            "method": "options",
             "endpoint": "api/users/"
         }
     ])

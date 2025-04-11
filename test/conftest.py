@@ -10,6 +10,14 @@ from faker import Faker
 
 faker = Faker()
 
+def pytest_addoption(parser):
+    parser.addoption("--env", action="store", default="rc")
+
+
+@pytest.fixture(scope="session")
+def env(request):
+    return request.config.getoption("--env")
+
 @pytest.fixture(scope="session", autouse=True)
 def envs():
     dotenv.load_dotenv()
@@ -18,6 +26,11 @@ def envs():
 @pytest.fixture(scope="session")
 def app_url():
     return os.getenv("BASE_URL")
+
+@pytest.fixture(scope='session')
+def users_endpoint() -> str:
+    app_url = os.getenv("APP_URL")
+    return f'{app_url}/api/users'
 
 
 @pytest.fixture(scope="module")
